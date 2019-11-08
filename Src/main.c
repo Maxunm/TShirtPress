@@ -40,6 +40,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "math.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -68,7 +69,9 @@ TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 uint32_t tempValue = 0;
-
+float tempK = 0;
+float tempC = 0;
+float tempF = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,8 +120,11 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_IT(&hadc2);
+  //Use PWM to control? or simple loop?
+  /*
   TIM4->CCR2 = 1413;
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+  */
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -301,9 +307,19 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+
+
+
+
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
   tempValue = HAL_ADC_GetValue(&hadc2);
+
+  tempK = 1.0/((1.0/298.15)+((1.0/4300.0)*(logf(((4096.0/(float)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
+  tempC = tempK - 273.15; //K to C
+  tempF = ((9.0*tempC)/5.0)+32.0; //C to F
   
+  
+  HAL_ADC_Start_IT(&hadc2);
   
   
   

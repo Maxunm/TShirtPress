@@ -1,19 +1,19 @@
-"C:\Users\Maxunm\Desktop\Press\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c"
+"C:\Users\Maxunm\Desktop\TShirtPress\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\Users\Maxunm\Desktop\Press\Drivers\STM32F4xx_HAL_Driver\Src
+C:\Users\Maxunm\Desktop\TShirtPress\Drivers\STM32F4xx_HAL_Driver\Src
 -I
-C:\Users\Maxunm\Desktop\Press\EWARM/../Inc
+C:\Users\Maxunm\Desktop\TShirtPress\EWARM/../Inc
 -I
-C:\Users\Maxunm\Desktop\Press\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc
+C:\Users\Maxunm\Desktop\TShirtPress\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc
 -I
-C:\Users\Maxunm\Desktop\Press\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+C:\Users\Maxunm\Desktop\TShirtPress\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
 -I
-C:\Users\Maxunm\Desktop\Press\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include
+C:\Users\Maxunm\Desktop\TShirtPress\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include
 -I
-C:\Users\Maxunm\Desktop\Press\EWARM/../Drivers/CMSIS/Include
+C:\Users\Maxunm\Desktop\TShirtPress\EWARM/../Drivers/CMSIS/Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CMSIS\Core\Include
 -I
@@ -23,15 +23,15 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-C:\Users\Maxunm\Desktop\Press\Inc
+C:\Users\Maxunm\Desktop\TShirtPress\Inc
 -I
-C:\Users\Maxunm\Desktop\Press\Drivers\STM32F4xx_HAL_Driver\Inc
+C:\Users\Maxunm\Desktop\TShirtPress\Drivers\STM32F4xx_HAL_Driver\Inc
 -I
-C:\Users\Maxunm\Desktop\Press\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy
+C:\Users\Maxunm\Desktop\TShirtPress\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy
 -I
-C:\Users\Maxunm\Desktop\Press\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+C:\Users\Maxunm\Desktop\TShirtPress\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 -I
-C:\Users\Maxunm\Desktop\Press\Drivers\CMSIS\Include
+C:\Users\Maxunm\Desktop\TShirtPress\Drivers\CMSIS\Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CMSIS\Core\Include
 -I
