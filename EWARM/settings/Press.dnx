@@ -9,7 +9,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>3375182626</Checksum>
+        <Checksum>1074126510</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -56,7 +56,6 @@
     </SWOTraceHWSettings>
     <watch_formats>
         <Fmt0>{W}42:myPID	4	0</Fmt0>
-        <Fmt1>{W}42:tempF	0	10</Fmt1>
     </watch_formats>
     <Trace2>
         <Enabled>0</Enabled>

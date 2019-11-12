@@ -64,7 +64,6 @@
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc2;
 
-TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
@@ -78,7 +77,7 @@ double elapsedTime;
 double setPoint = 70;
 double error, cumError, rateError, lastError;
 unsigned char counter = 0;
-double myPID = 0;
+unsigned int myPID = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -86,9 +85,8 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_ADC2_Init(void);
 static void MX_TIM4_Init(void);
-static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
-double computePID(double inp);
+int computePID(double inp);
 double log(double arg);
 /* USER CODE END PFP */
 
@@ -127,14 +125,12 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC2_Init();
   MX_TIM4_Init();
-  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_IT(&hadc2);
-  HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_1);
   //Use PWM to control? or simple loop?
-  kp = .1;
-  ki = 10;
-  kd = 30;
+  kp = 19.56;
+  ki = 0.71;
+  kd = 134.26;
   TIM4->CCR2 = 300;
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
   
@@ -249,53 +245,6 @@ static void MX_ADC2_Init(void)
 }
 
 /**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 0xFFFFFFFF;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  if (HAL_TIM_OC_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-
-}
-
-/**
   * @brief TIM4 Initialization Function
   * @param None
   * @retval None
@@ -314,7 +263,7 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 0;
+  htim4.Init.Prescaler = 7;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim4.Init.Period = 0xFFFF;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -388,20 +337,30 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
 
 }
 
-double computePID(double inp){
+int computePID(double inp){
   currentTime = HAL_GetTick();                //get current time
   elapsedTime = (double)(currentTime - previousTime);        //compute time elapsed from previous computation
  
   error = setPoint - inp;                                // determine error
   cumError += error * elapsedTime;                // compute integral      
   rateError = (error - lastError)/elapsedTime;   // compute derivative
- 
-  double out = kp*error + ki*cumError + kd*rateError;                //PID output               
-       
+  double out;
+  if(cumError < 0){
+    cumError = 0;                                      //Clamping
+  }
+  if(cumError > 0xFFFF/ki){
+    cumError = 0xFFFF/ki;
+    out = 0xFFFF;                                       //Clamping
+  }else{ 
+    out = kp*error + ki*cumError + kd*rateError;
+  }
+  if(out < 0){
+    out = 0;
+  }
   lastError = error;                                //remember current error
   previousTime = currentTime;                        //remember current time
  
-  return out;
+  return (int)out;
   
 
 }
