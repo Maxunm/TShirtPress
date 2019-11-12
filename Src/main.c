@@ -69,9 +69,16 @@ TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 uint32_t tempValue = 0;
-float tempK = 0;
-float tempC = 0;
-float tempF = 0;
+double tempK = 0;
+double tempC = 0;
+double tempF = 0;
+double kp, ki, kd;
+uint32_t currentTime, previousTime;
+double elapsedTime;
+double setPoint = 70;
+double error, cumError, rateError, lastError;
+unsigned char counter = 0;
+double myPID = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -81,7 +88,8 @@ static void MX_ADC2_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
-
+double computePID(double inp);
+double log(double arg);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -122,17 +130,25 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_IT(&hadc2);
+  HAL_TIM_OC_Start(&htim2, TIM_CHANNEL_1);
   //Use PWM to control? or simple loop?
-  /*
-  TIM4->CCR2 = 1413;
+  kp = .1;
+  ki = 10;
+  kd = 30;
+  TIM4->CCR2 = 300;
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
-  */
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    if(counter==0){
+      myPID = computePID(tempF);
+      TIM4->CCR2 = (int)myPID;
+      HAL_Delay(200);
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -300,7 +316,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 2047;
+  htim4.Init.Period = 0xFFFF;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
   {
@@ -363,20 +379,32 @@ static void MX_GPIO_Init(void)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
   tempValue = HAL_ADC_GetValue(&hadc2);
 
-  tempK = 1.0/((1.0/298.15)+((1.0/4300.0)*(logf(((4096.0/(float)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
+  tempK = 1.0/((1.0/298.15)+((1.0/4390.0)*(log(((4096.0/(double)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
   tempC = tempK - 273.15; //K to C
   tempF = ((9.0*tempC)/5.0)+32.0; //C to F
   
   
   HAL_ADC_Start_IT(&hadc2);
-  
-  
-  
-  
-  
+
 }
 
+double computePID(double inp){
+  currentTime = HAL_GetTick();                //get current time
+  elapsedTime = (double)(currentTime - previousTime);        //compute time elapsed from previous computation
+ 
+  error = setPoint - inp;                                // determine error
+  cumError += error * elapsedTime;                // compute integral      
+  rateError = (error - lastError)/elapsedTime;   // compute derivative
+ 
+  double out = kp*error + ki*cumError + kd*rateError;                //PID output               
+       
+  lastError = error;                                //remember current error
+  previousTime = currentTime;                        //remember current time
+ 
+  return out;
+  
 
+}
 
 
 
