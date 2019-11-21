@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Maxunm\Desktop\TShirtPress\EWARM\settings\Press.Press.general.xcl" --backend -f "C:\Users\Maxunm\Desktop\TShirtPress\EWARM\settings\Press.Press.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Maxunm\TshirtPressRebase\Press\EWARM\settings\Press.Press.general.xcl" --backend -f "C:\Users\Maxunm\TshirtPressRebase\Press\EWARM\settings\Press.Press.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Maxunm\Desktop\TShirtPress\EWARM\settings\Press.Press.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\Maxunm\Desktop\TShirtPress\EWARM\settings\Press.Press.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\Maxunm\TshirtPressRebase\Press\EWARM\settings\Press.Press.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\Maxunm\TshirtPressRebase\Press\EWARM\settings\Press.Press.driver.xcl" 
 }
