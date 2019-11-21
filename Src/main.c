@@ -345,15 +345,15 @@ int computePID(double inp){
   cumError += error * elapsedTime;                // compute integral      
   rateError = (error - lastError)/elapsedTime;   // compute derivative
   double out;
-  if(cumError < 0){
-    cumError = 0;                                      //Clamping
+  if(cumError < -0xFFFF/ki){
+    cumError = -0xFFFF/ki;                                      //Clamping
   }
   if(cumError > 0xFFFF/ki){
-    cumError = 0xFFFF/ki;
-    out = 0xFFFF;                                       //Clamping
-  }else{ 
-    out = kp*error + ki*cumError + kd*rateError;
+    cumError = 0xFFFF/ki;                                       //Clamping
   }
+    
+  out = kp*error + ki*cumError + kd*rateError;
+  
   if(out < 0){
     out = 0;
   }
