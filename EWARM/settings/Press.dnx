@@ -9,7 +9,7 @@
         <LeaveTargetRunning>_ 0</LeaveTargetRunning>
     </StLinkDriver>
     <DebugChecksum>
-        <Checksum>1074126510</Checksum>
+        <Checksum>359705238</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -55,7 +55,8 @@
         <ITMlogFile>$PROJ_DIR$\ITM.log</ITMlogFile>
     </SWOTraceHWSettings>
     <watch_formats>
-        <Fmt0>{W}42:myPID	4	0</Fmt0>
+        <Fmt0>{W}42:cumError	4	0</Fmt0>
+        <Fmt1>{W}42:myPID	4	0</Fmt1>
     </watch_formats>
     <Trace2>
         <Enabled>0</Enabled>

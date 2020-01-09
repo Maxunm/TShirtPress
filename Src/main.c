@@ -78,6 +78,7 @@ double setPoint = 70;
 double error, cumError, rateError, lastError;
 unsigned char counter = 0;
 unsigned int myPID = 0;
+uint32_t finalAdc, beginAdc, adcTime;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -143,6 +144,8 @@ int main(void)
     if(counter==0){
       myPID = computePID(tempF);
       TIM4->CCR2 = (int)myPID;
+      HAL_Delay(200);
+      TIM4->CCR2 = 0;
       HAL_Delay(200);
     }
     /* USER CODE END WHILE */
@@ -331,7 +334,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
   tempK = 1.0/((1.0/298.15)+((1.0/4390.0)*(log(((4096.0/(double)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
   tempC = tempK - 273.15; //K to C
   tempF = ((9.0*tempC)/5.0)+32.0; //C to F
-  
+  tempF = tempF+20;
+
   
   HAL_ADC_Start_IT(&hadc2);
 
@@ -345,17 +349,20 @@ int computePID(double inp){
   cumError += error * elapsedTime;                // compute integral      
   rateError = (error - lastError)/elapsedTime;   // compute derivative
   double out;
-  if(cumError < -0xFFFF/ki){
-    cumError = -0xFFFF/ki;                                      //Clamping
+  if(cumError < -0xFFFF){
+    cumError = -0xFFFF;                                      //Clamping
   }
-  if(cumError > 0xFFFF/ki){
-    cumError = 0xFFFF/ki;                                       //Clamping
+  if(cumError > 0xFFFF){
+    cumError = 0xFFFF;                                       //Clamping
   }
     
   out = kp*error + ki*cumError + kd*rateError;
   
   if(out < 0){
     out = 0;
+  }
+  if(out > 0xFFFF){
+    out = 0xFFFF;
   }
   lastError = error;                                //remember current error
   previousTime = currentTime;                        //remember current time
