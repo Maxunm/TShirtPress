@@ -43,7 +43,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -88,7 +88,7 @@ static void MX_ADC2_Init(void);
 static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 int computePID(double inp);
-double log(double arg);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
