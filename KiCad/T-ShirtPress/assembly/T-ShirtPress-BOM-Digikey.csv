@@ -1,0 +1,8 @@
+Ref,Qnty,Value,Cmp name,Footprint,Digikey Part #
+"F1, ",1,500mA,Fuse_Small,1206,P16735CT-ND
+"J1, ",1,ST_LINKV2,Conn_02x05_Odd_Even,Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD,609-6529-ND?
+"J2, ",1,Display,Conn_02x07_Odd_Even,Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical,S2011EC-07-ND?
+"J3, ",2,"Thermistor, SSR_CONTROL",Conn_01x02,Connector_JST:JST_EH_B2B-EH-A_1x02_P2.50mm_Vertical,455-1611-ND?
+"J7, ",1,Buttons,Conn_02x03_Odd_Even,Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical,S2011EC-03-ND?
+"PS1, ",1,IRM-10-5,IRM-10-5,Converter_ACDC:Converter_ACDC_MeanWell_IRM-10-xx_THT,1866-3032-ND
+"R4, ",1,4.5k,R_Small,Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P5.08mm_Horizontal,S4.7KQCT-ND
