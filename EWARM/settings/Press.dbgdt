@@ -862,7 +862,7 @@
                     <item>ki</item>
                     <item>kd</item>
                     <item>tempC</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
