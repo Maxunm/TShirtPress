@@ -74,7 +74,7 @@ double tempF = 0;
 double kp, ki, kd;
 uint32_t currentTime, previousTime;
 double elapsedTime;
-double setPoint = 150;
+double setPoint = 0;
 double error, cumError, rateError, lastError;
 unsigned char counter = 0;
 unsigned int myPID = 0;
@@ -391,7 +391,7 @@ static void MX_GPIO_Init(void)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
   tempValue = HAL_ADC_GetValue(&hadc2);
   
-  tempK = 1.0/((1.0/298.15)+((1.0/4390.0)*(log(((4095.0/(double)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
+  tempK = 1.0/((1.0/298.15)+((1.0/4388.0)*(log(((4095.0/(double)tempValue)-1.0)))));//B value equation to calculate temprature of thermistor
   tempC = tempK - 273.15; //K to C
   tempF = ((9.0*tempC)/5.0)+32.0; //C to F
   tempF = tempF+20;
@@ -408,11 +408,11 @@ int computePID(double inp){
   error = setPoint - inp;                                // determine error
   cumError += error * elapsedTime;                // compute integral      
   rateError = (error - lastError)/elapsedTime;   // compute derivative
-  if(cumError < -0xFFFF){
-    cumError = -0xFFFF;                                      //Clamping
+  if(cumError < -0x0FFF){
+    cumError = -0x0FFF;                                      //Clamping
   }
-  if(cumError > 0xFFFF){
-    cumError = 0xFFFF;                                       //Clamping
+  if(cumError > 0x0FFF){
+    cumError = 0x0FFF;                                       //Clamping
   }
   
   out = kp*error + ki*cumError + kd*rateError;
